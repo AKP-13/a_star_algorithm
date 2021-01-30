@@ -7,10 +7,10 @@ A code-along from [Tech With Tim's](https://www.youtube.com/watch?v=JtiK0DOeI4A)
 -   fork and clone this repository
 -   `cd` into repository
 -   `pipenv install -r requirements.txt`
--   `python astar.py`
 
 ## Useage
 
+-   `python astar.py`
 -   The first square you left-click will be the starting square (orange by default)
 -   The second square you left-click will be the end square (turquoise by default)
 -   Any subsequent squares you left-click (black by default) will be barrier squares that block off the route
