@@ -51,7 +51,7 @@ class Spot:
         self.color = WHITE
 
     def make_start(self):
-        self.color == ORANGE
+        self.color = ORANGE
 
     def make_closed(self):
         self.color = RED
