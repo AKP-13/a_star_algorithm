@@ -11,10 +11,14 @@ A code-along from [Tech With Tim's](https://www.youtube.com/watch?v=JtiK0DOeI4A)
 ## Useage
 
 -   `python astar.py`
--   The first square you left-click will be the starting square (orange by default)
--   The second square you left-click will be the end square (turquoise by default)
--   Any subsequent squares you left-click (black by default) will be barrier squares that block off the route
--   To un-colour any squares, right-click them
--   To start the algorithm, press `space bar`
--   Upon completion, the line of shortest distance between start and end square will be re-traced and highlighten (purple by default)
--   To restart, press `c`
+-   **First left-click** - starting square (orange by default)
+-   **Second left-click** - end square (turquoise by default)
+
+![Start and end nodes selected with barriers](https://res.cloudinary.com/de8a23w1z/image/upload/v1612030971/a_star_search/Screenshot_2021-01-30_at_18.19.25_bpodv5.png "Start and end nodes selected with barriers")
+
+-   **Subsequent left-clicks** - barrier squares that block off the route (black by default)
+-   **Right click** - un-colour any square
+-   **Space Bar** - start
+-   **c** - restart
+
+![Shortest route found!](https://res.cloudinary.com/de8a23w1z/image/upload/v1612030971/a_star_search/Screenshot_2021-01-30_at_18.20.06_qvjhru.png "Shortest route found!")
