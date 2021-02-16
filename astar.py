@@ -2,10 +2,12 @@ import pygame
 import math
 from queue import PriorityQueue
 
+# Setting up the display
 WIDTH = 800
 WIN = pygame.display.set_mode((WIDTH, WIDTH))
 pygame.display.set_caption("A* Path Finding Algorithm")
 
+# Pre-defining colours
 RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLUE = (0, 255, 0)
@@ -16,6 +18,8 @@ PURPLE = (128, 0, 128)
 ORANGE = (255, 165, 0)
 GREY = (128, 128, 128)
 TURQUOISE = (64, 224, 208)
+
+# For each spot or node on the screen
 
 
 class Spot:
@@ -29,24 +33,31 @@ class Spot:
         self.width = width
         self.total_rows = total_rows
 
+    # Get position of each spot
     def get_pos(self):
         return self.row, self.col
 
+    # If the spot is closed, i.e. we've already looked at it
     def is_closed(self):
         return self.color == RED
 
+    # If in the open set
     def is_open(self):
         return self.color == GREEN
 
+    # Barrier
     def is_barrier(self):
         return self.color == BLACK
 
+    # Start color
     def is_start(self):
         return self.color == ORANGE
 
+    # End color
     def is_end(self):
         return self.color == TURQUOISE
 
+    # Change color back to white
     def reset(self):
         self.color = WHITE
 
@@ -69,33 +80,34 @@ class Spot:
         self.color = PURPLE
 
     def draw(self, win):
+        # Draw a cube
         pygame.draw.rect(
             win, self.color, (self.x, self.y, self.width, self.width))
 
+    # Check neighbours, if not barriers, add to neighbors list
     def update_neighbors(self, grid):
         self.neighbors = []
-        # DOWN
+        # Down
         if self.row < self.total_rows - 1 and not grid[self.row + 1][self.col].is_barrier():
             self.neighbors.append(grid[self.row + 1][self.col])
 
-        # UP
+        # Up
         if self.row > 0 and not grid[self.row - 1][self.col].is_barrier():
             self.neighbors.append(grid[self.row - 1][self.col])
 
-        # RIGHT
+        # Right
         if self.col < self.total_rows - 1 and not grid[self.row][self.col + 1].is_barrier():
             self.neighbors.append(grid[self.row][self.col + 1])
 
-        # LEFT
+        # Left
         if self.col > 0 and not grid[self.row][self.col - 1].is_barrier():
             self.neighbors.append(grid[self.row][self.col - 1])
 
     def __lt__(self, other):
         return False
 
+
 # Manhattan distance for heuristic function
-
-
 def h(p1, p2):
     x1, y1 = p1
     x2, y2 = p2
@@ -129,6 +141,7 @@ def algorithm(draw, grid, start, end):
 
     while not open_set.empty():
         for event in pygame.event.get():
+            # If you quit window, quit the game
             if event.type == pygame.QUIT:
                 pygame.quit()
 
@@ -141,6 +154,7 @@ def algorithm(draw, grid, start, end):
             end.make_end()
             return True
 
+        # If not at end, calculate neighbors' g scores
         for neighbor in current.neighbors:
             temp_g_score = g_score[current] + 1
 
@@ -166,6 +180,7 @@ def algorithm(draw, grid, start, end):
     return False
 
 
+# Make the grid
 def make_grid(rows, width):
     grid = []
     gap = width // rows
@@ -178,6 +193,7 @@ def make_grid(rows, width):
     return grid
 
 
+# Draw grid lines
 def draw_grid(win, rows, width):
     gap = width // rows
     for i in range(rows):
@@ -186,14 +202,18 @@ def draw_grid(win, rows, width):
             pygame.draw.line(win, GREY, (j * gap, 0), (j * gap, width))
 
 
+# Draw everything
 def draw(win, grid, rows, width):
+    # Fill entire screen with white, then paint over with lines etc.
     win.fill(WHITE)
 
+    # Draw all spots
     for row in grid:
         for spot in row:
             spot.draw(win)
 
     draw_grid(win, rows, width)
+    # 'Take whatever we've done and update that on the grid'
     pygame.display.update()
 
 
@@ -207,10 +227,12 @@ def get_clicked_pos(pos, rows, width):
     return row, col
 
 
+# Main loop, determine all of the checks like spot colour etc.
 def main(win, width):
     ROWS = 50
     grid = make_grid(ROWS, width)
 
+    # Initial start and end position
     start = None
     end = None
 
@@ -219,13 +241,16 @@ def main(win, width):
     while run:
         draw(win, grid, ROWS, width)
         for event in pygame.event.get():
+            # Stop running the game if we quit
             if event.type == pygame.QUIT:
                 run = False
 
-            if pygame.mouse.get_pressed()[0]:  # LEFT MOUSE CLICK
+            # Left mouse click
+            if pygame.mouse.get_pressed()[0]:
                 pos = pygame.mouse.get_pos()
                 row, col = get_clicked_pos(pos, ROWS, width)
                 spot = grid[row][col]
+                # If the spot you click on is not the start or end spot, make it the start spot
                 if not start and spot != end:
                     start = spot
                     start.make_start()
@@ -237,17 +262,20 @@ def main(win, width):
                 elif spot != end and spot != start:
                     spot.make_barrier()
 
-            elif pygame.mouse.get_pressed()[2]:  # RIGHT MOUSE CLICK
+            # Right mouse click
+            elif pygame.mouse.get_pressed()[2]:
                 pos = pygame.mouse.get_pos()
                 row, col = get_clicked_pos(pos, ROWS, width)
                 spot = grid[row][col]
                 spot.reset()
+                # Reset start and spot
                 if spot == start:
                     start = None
                 elif spot == end:
                     end = None
 
             if event.type == pygame.KEYDOWN:
+                # If we press space, start algorithm
                 if event.key == pygame.K_SPACE and start and end:
                     for row in grid:
                         for spot in row:
