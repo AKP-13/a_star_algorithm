@@ -1,6 +1,6 @@
 # A\* Search Algorithm
 
-A code-along from [Tech With Tim's](https://www.youtube.com/watch?v=JtiK0DOeI4A) YouTube video that uses the A\* Search Algorithm to find the shortest distance between two user-selected points on a grid.
+A code-along from [Tech With Tim's](https://www.techwithtim.net) [YouTube](https://www.youtube.com/watch?v=JtiK0DOeI4A) video that uses the A\* Search Algorithm to find the shortest path between two user-selected points on a grid.
 
 ## Installation
 
@@ -8,7 +8,7 @@ A code-along from [Tech With Tim's](https://www.youtube.com/watch?v=JtiK0DOeI4A)
 -   `cd` into repository
 -   `pipenv install -r requirements.txt`
 
-## Useage
+## Instructions
 
 -   `python astar.py`
 -   **First left-click** - starting square (orange by default)
